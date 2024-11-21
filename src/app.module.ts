@@ -1,11 +1,30 @@
-import { Module } from '@nestjs/common';
+import {
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  RequestMethod,
+} from '@nestjs/common';
 import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { ProductsModule } from './products/products.module';
+import { ProductsModule } from './modules/products/products.module';
+import { LoggerMiddleware } from './middleware/logger.middleware';
+import { APP_FILTER } from '@nestjs/core';
+import { AllExceptionsFilter } from './filters/allExceptions.filter';
 
 @Module({
   imports: [ProductsModule],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    {
+      provide: APP_FILTER,
+      useClass: AllExceptionsFilter,
+    },
+  ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LoggerMiddleware).forRoutes({
+      path: 'products',
+      method: RequestMethod.GET,
+    });
+  }
+}
