@@ -12,7 +12,7 @@ import { AllExceptionsFilter } from './filters/allExceptions.filter';
 import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import configuration from './config/configuration';
-import database from './config/database.config';
+import typeorm from './config/typeorm.config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
@@ -20,13 +20,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     ProductsModule,
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [configuration, database],
+      load: [configuration, typeorm],
       envFilePath: '.env',
     }),
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) =>
-        configService.get('database'),
+        configService.get('typeorm'),
     }),
   ],
   controllers: [AppController],

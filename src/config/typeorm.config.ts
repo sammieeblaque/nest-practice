@@ -2,16 +2,17 @@ import { registerAs } from '@nestjs/config';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { DataSource, DataSourceOptions } from 'typeorm';
 
-import { config as dotenvConfig } from 'dotenv';
-
 import 'reflect-metadata';
+
+import { config as dotenvConfig } from 'dotenv';
 
 dotenvConfig();
 
-const database = {
+const typeorm = {
   type: 'postgres',
   url: process.env.DATABASE_URL,
   entities: ['dist/**/*.entity{.ts,.js}'],
+  migrations: ['dist/migrations/**/*{.ts,.js}'],
   retryAttempts: 2,
   retryDelay: 3000,
   ssl: true,
@@ -21,6 +22,6 @@ const database = {
   synchronize: true,
 } satisfies TypeOrmModuleOptions;
 
-export default registerAs('database', () => database);
+export default registerAs('typeorm', () => typeorm);
 
-export const connectionSource = new DataSource(database as DataSourceOptions);
+export const connectionSource = new DataSource(typeorm as DataSourceOptions);

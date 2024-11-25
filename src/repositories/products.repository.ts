@@ -17,6 +17,10 @@ export class ProductsRepository extends Repository<Products> {
     return this.findOne({ where: { name } });
   }
 
+  async findAll(): Promise<Products[]> {
+    return this.find();
+  }
+
   async createProducts(data: Partial<Products>): Promise<Products> {
     const user = this.create(data);
     return this.save(user);

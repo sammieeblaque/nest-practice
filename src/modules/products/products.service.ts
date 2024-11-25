@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { ProductsRepository } from '../../middleware/products.repository';
+import { ProductsRepository } from '../../repositories/products.repository';
 import { Products } from './entities/product.entity';
 import { CreateProductDto } from './dto/create-product.dto';
 
@@ -7,7 +7,7 @@ import { CreateProductDto } from './dto/create-product.dto';
 export class ProductsService {
   constructor(private readonly productsRepository: ProductsRepository) {}
   async findAll(): Promise<Products[]> {
-    return this.productsRepository.find();
+    return this.productsRepository.findAll();
   }
 
   async create(data: CreateProductDto): Promise<Products> {
