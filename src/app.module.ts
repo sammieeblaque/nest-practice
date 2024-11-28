@@ -41,7 +41,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(LoggerMiddleware).forRoutes({
-      path: 'products',
+      path: '*',
       method: RequestMethod.GET,
     });
   }
