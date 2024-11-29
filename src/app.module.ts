@@ -14,10 +14,13 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import configuration from './config/configuration';
 import typeorm from './config/typeorm.config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AuthModule } from './modules/auth/auth.module';
+import { UsersModule } from './modules/users/users.module';
 
 @Module({
   imports: [
     ProductsModule,
+    UsersModule,
     ConfigModule.forRoot({
       isGlobal: true,
       load: [configuration, typeorm],
@@ -28,10 +31,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       useFactory: async (configService: ConfigService) =>
         configService.get('typeorm'),
     }),
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [
     AppService,
+    // UsersRepository,
     {
       provide: APP_FILTER,
       useClass: AllExceptionsFilter,
