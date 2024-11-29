@@ -21,6 +21,7 @@ import { UsersModule } from './modules/users/users.module';
   imports: [
     ProductsModule,
     UsersModule,
+    AuthModule,
     ConfigModule.forRoot({
       isGlobal: true,
       load: [configuration, typeorm],
@@ -36,7 +37,6 @@ import { UsersModule } from './modules/users/users.module';
   controllers: [AppController],
   providers: [
     AppService,
-    // UsersRepository,
     {
       provide: APP_FILTER,
       useClass: AllExceptionsFilter,

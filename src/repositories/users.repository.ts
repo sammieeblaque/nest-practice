@@ -7,13 +7,18 @@ import { DataSource, EntityManager, Repository } from 'typeorm';
 export class UsersRepository extends Repository<Users> {
   constructor(
     @InjectEntityManager()
-    private readonly dataSource: DataSource,
     private readonly entityManager: EntityManager,
+    private readonly dataSource: DataSource,
   ) {
     super(Users, dataSource.manager);
   }
 
   async findOneUser(email: string): Promise<Users> {
-    return this.findOne({ where: { email } });
+    return this.entityManager.findOne(Users, { where: { email } });
+  }
+
+  async createUser(data: Partial<Users>): Promise<Users> {
+    const user = this.create(data);
+    return this.save(user);
   }
 }
