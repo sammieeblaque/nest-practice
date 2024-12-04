@@ -17,4 +17,12 @@ export class UsersService {
   async createUser(data: CreateUserDto): Promise<Users> {
     return await this.usersRepository.createUser(data);
   }
+
+  async deleteUser(id: number): Promise<void> {
+    await this.usersRepository.deleteUser(id);
+  }
+
+  async getUsers(): Promise<Users[]> {
+    return await this.usersRepository.getUsers();
+  }
 }
