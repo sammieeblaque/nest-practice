@@ -13,6 +13,7 @@ import { CreateProductDto } from './dto/create-product.dto';
 import { ConfigService } from '@nestjs/config';
 import { JwtAuthGuard } from '@/guards/auth.guard';
 
+@UseGuards(JwtAuthGuard)
 @Controller({
   path: 'products',
 })
@@ -28,7 +29,6 @@ export class ProductsController {
     return this.productsService.create(createProductDto);
   }
 
-  @UseGuards(JwtAuthGuard)
   @Get()
   findAll() {
     return this.productsService.findAll();
