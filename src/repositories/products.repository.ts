@@ -47,7 +47,7 @@ export class ProductsRepository extends Repository<Products> {
 
   async findActiveUsers(): Promise<Products[]> {
     return this.createQueryBuilder('products')
-      .where('user.deletedAt IS NULL')
+      .where('user.deletedAt IS NOT NULL')
       .orderBy('user.createdAt', 'DESC')
       .getMany();
   }
